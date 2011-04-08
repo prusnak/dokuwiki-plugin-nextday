@@ -1,0 +1,7 @@
+base	nextday
+author	Pavol Rusnak
+email	stick@gk2.sk
+date	2011-04-08
+name	Nextday Plugin
+desc	Display the date of the closest $WEEKDAY
+url		http://www.dokuwiki.org/plugin:nextday
