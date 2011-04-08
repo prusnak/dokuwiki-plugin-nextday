@@ -19,12 +19,20 @@ class syntax_plugin_nextday extends DokuWiki_Syntax_Plugin {
     function getSort() { return 155; }
 
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('~~NEXTDAY:[^~]*~~',$mode,'plugin_nextday');
+        $this->Lexer->addSpecialPattern('~~NEXTDAY:[^~]*~~', $mode, 'plugin_nextday');
     }
 
     function handle($match, $state, $pos, &$handler) {
-        $day = strtotime('next friday', strtotime('yesterday'));
-        return strftime('%d %B %Y', $day);
+        $match = substr($match,10,-2);
+        $day = NULL;
+        if (strlen($match) == 3 && in_array($match, array('mon','tue','wed','thu','fri','sat','sun'))) {
+            $day = strtotime('next ' . $match, strtotime('yesterday'));
+        }
+        if (strlen($match) == 4 && in_array(substr($match,0,3), array('mon','tue','wed','thu','fri','sat','sun'))) {
+            $idx = (int)$match[3];
+            // TODO: find this day :)
+        }
+        return $day ? strftime('%d %B %Y', $day) : '';
     }
 
     function render($mode, &$renderer, $data) {
