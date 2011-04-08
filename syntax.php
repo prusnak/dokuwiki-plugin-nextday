@@ -23,14 +23,20 @@ class syntax_plugin_nextday extends DokuWiki_Syntax_Plugin {
     }
 
     function handle($match, $state, $pos, &$handler) {
-        $match = substr($match,10,-2);
+        $in = explode(' ', substr($match,10,-2));
         $day = NULL;
-        if (strlen($match) == 3 && in_array($match, array('mon','tue','wed','thu','fri','sat','sun'))) {
-            $day = strtotime('next ' . $match, strtotime('yesterday'));
-        }
-        if (strlen($match) == 4 && in_array(substr($match,0,3), array('mon','tue','wed','thu','fri','sat','sun'))) {
-            $idx = (int)$match[3];
-            // TODO: find this day :)
+        if (count($in) == 1) {
+            if (in_array($in[0], array('mon','tue','wed','thu','fri','sat','sun'))) {
+                $day = strtotime('next ' . $match, strtotime('yesterday'));
+            }
+        } else if (count($in) == 2) {
+            if (in_array($in[0], array('first','second','third','fourth','fifth','last')) &&
+                in_array($in[1], array('mon','tue','wed','thu','fri','sat','sun'))) {
+                $day_today = strtotime('today');
+                $day_next = strtotime("{$in[0]} {$in[1]} of next month");
+                $day_this = strtotime("{$in[0]} {$in[1]} of this month");
+                $day = $date_this < $date_today ? $date_next : $date_this;
+            }
         }
         return $day ? strftime('%d %B %Y', $day) : '';
     }
