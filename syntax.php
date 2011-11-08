@@ -27,15 +27,15 @@ class syntax_plugin_nextday extends DokuWiki_Syntax_Plugin {
         $day = NULL;
         if (count($in) == 1) {
             if (in_array($in[0], array('mon','tue','wed','thu','fri','sat','sun'))) {
-                $day = strtotime('next ' . $match, strtotime('yesterday'));
+                $day = strtotime('next ' . $in[0], strtotime('yesterday'));
             }
         } else if (count($in) == 2) {
             if (in_array($in[0], array('first','second','third','fourth','fifth','last')) &&
                 in_array($in[1], array('mon','tue','wed','thu','fri','sat','sun'))) {
                 $day_today = strtotime('today');
-                $day_next = strtotime("{$in[0]} {$in[1]} of next month");
-                $day_this = strtotime("{$in[0]} {$in[1]} of this month");
-                $day = $date_this < $date_today ? $date_next : $date_this;
+                $day_next = strtotime("${in[0]} ${in[1]} of next month");
+                $day_this = strtotime("${in[0]} ${in[1]} of this month");
+                $day = ($day_this < $day_today) ? $day_next : $day_this;
             }
         }
         return $day ? strftime('%d %B %Y', $day) : '';
