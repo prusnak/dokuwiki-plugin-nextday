@@ -6,8 +6,8 @@
  * @author     Pavol Rusnak <stick@gk2.sk>
  */
 
-if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
+if(!defined('DOKU_INC')) die();
+if(!defined('DOKU_PLUGIN')) die();
 require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_nextday extends DokuWiki_Syntax_Plugin {
