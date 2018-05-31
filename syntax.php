@@ -22,7 +22,7 @@ class syntax_plugin_nextday extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern('~~NEXTDAY:[^~]*~~', $mode, 'plugin_nextday');
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         $in = explode(' ', substr($match,10,-2));
         $day = NULL;
         if (count($in) == 1) {
@@ -41,7 +41,7 @@ class syntax_plugin_nextday extends DokuWiki_Syntax_Plugin {
         return $day ? strftime('%d %B %Y', $day) : '';
     }
 
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         $renderer->doc .= $data;
         return true;
     }
